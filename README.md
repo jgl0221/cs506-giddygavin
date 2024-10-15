@@ -1,42 +1,51 @@
 # Project Proposal: Predicting a Country's Happiness Index
 
 ## Description of the Project
-The goal of this project is to predict a country's happiness index based on socio-economic and demographic factors derived from the **World Happiness Report** dataset available on **Kaggle**. The happiness index reflects the subjective well-being of individuals in various countries, influenced by factors such as:
-
-- GDP per capita
-- Social support
-- Life expectancy
-- Freedom to make life choices
-- Perceptions of corruption
-
-This analysis will provide insights into what drives happiness across different nations and help inform policy decisions aimed at improving the quality of life.
+The goal of this project is to predict a country's **happiness index** based on socio-economic and demographic factors derived from the World Happiness Report dataset available on Kaggle. The happiness index reflects the subjective well-being of individuals in various countries, influenced by factors such as GDP per capita, social support, life expectancy, freedom to make life choices, and perceptions of corruption. This analysis will provide insights into what drives happiness across different nations and help inform policy decisions aimed at improving the quality of life.
 
 ## Goals
-1. **Develop a Predictive Model**: Create a model that can accurately predict a country’s happiness index using key socio-economic indicators. This will help identify which factors are the strongest predictors of happiness. We will try to predict the happiness index for the year of 2023 using a model trained on previous years.
+- **Develop a Predictive Model:** Create a model that can accurately predict a country’s happiness index using key socio-economic indicators. This will help identify which factors are the strongest predictors of happiness. We will aim to predict the happiness index for the year 2023 using a model trained on previous years.
   
-2. **Identify Key Factors Influencing Happiness**: Analyze the dataset to determine the significant variables that impact happiness levels. This could involve exploring correlations and conducting feature importance analysis.
+- **Identify Key Factors Influencing Happiness:** Analyze the dataset to determine the significant variables that impact happiness levels. This could involve exploring correlations and conducting feature importance analysis.
 
 ## Data Collection
 
 ### Primary Data Source
-The main dataset will be sourced from **Kaggle's "World Happiness Report,"** which includes annual happiness scores for various countries along with associated factors like:
+The main dataset will be sourced from Kaggle's **World Happiness Report**, which includes annual happiness scores for various countries along with associated factors like GDP per capita, social support, life expectancy, freedom to make life choices, and perceptions of corruption.
 
-- Happiness index (dependent variable)
-- Economic indicators (e.g., GDP per capita)
-- Social factors (e.g., social support, life expectancy)
-- Freedom to make life choices
-- Perceptions of corruption
-- Etc.
+### Data Features
+The primary socio-economic indicators used for predicting the happiness index include:
+
+- **Economic indicators:** GDP per capita (gross domestic product per person).
+- **Social factors:** Social support (strength of social connections and support networks).
+- **Life expectancy:** The average number of years a person is expected to live.
+- **Freedom to make life choices:** The extent to which people feel free to make their own decisions.
+- **Perceptions of corruption:** How corrupt people perceive their government and businesses to be.
+
+Additional features like **generosity** or **demographic indicators** (e.g., population growth rate) may be considered, depending on their relevance to happiness.
+
+### Important Note
+For each feature, we will align with how these indicators are typically measured in happiness studies:
+- **GDP per capita:** Generally calculated by dividing a country’s total economic output by its population.
+- **Social support:** Measured based on survey responses regarding the availability of support from friends or family in times of need.
+- **Life expectancy:** Based on World Health Organization or similar health statistics.
+- **Freedom to make life choices:** Gauged by survey questions that ask respondents whether they feel they have the freedom to make important life decisions.
+- **Perceptions of corruption:** Derived from surveys asking about the level of corruption in government and businesses as perceived by citizens.
+
+We will avoid using any factor that has already been included in the calculation of the happiness index itself to prevent redundancy.
 
 ### Data Collection Method
-- **Kaggle Dataset**: The dataset will be downloaded directly from Kaggle.
-  
-- **Web Scraping**: If needed, we will scrape data from reliable sources such as the **World Bank** and the **United Nations**. For instance, we can collect recent economic indicators or demographic statistics that complement the happiness data.
-
-- **APIs**: Explore APIs from organizations like the **World Bank** to gather updated information about various socio-economic indicators.
+The Kaggle dataset will be downloaded directly. To ensure a comprehensive analysis, we may also seek additional relevant data from:
+- **Web Scraping:** If needed, we will scrape data from reliable sources such as the World Bank and the United Nations.
+- **APIs:** Explore APIs from organizations like the World Bank to gather updated information about various socio-economic indicators.
 
 ### Data Cleaning
-The collected data will be preprocessed to handle missing values, remove duplicates, and normalize data formats. This step is crucial to ensure the reliability of the predictive model.
+The collected data will be preprocessed to:
+- Handle missing values
+- Remove duplicates
+- Normalize data formats
+
+This step is crucial to ensure the reliability of the predictive model.
 
 ## Modeling Approach
 
@@ -45,7 +54,7 @@ The collected data will be preprocessed to handle missing values, remove duplica
 
 ### Modeling Techniques
 - We will begin with **linear regression** for baseline predictions.
-- Explore advanced models such as **decision trees** or **k-means** to capture more complex relationships, as well as other methods of modeling learned in class.
+- Explore advanced models such as **decision trees** or **random forests** to capture more complex relationships, as well as other methods learned in class.
 - Consider using **neural networks** if data complexity warrants such an approach.
 
 ### Evaluation Metrics
@@ -55,15 +64,16 @@ The collected data will be preprocessed to handle missing values, remove duplica
 ## Data Visualization
 
 ### Visualization Techniques
-- Scatter plots to illustrate relationships between individual factors and the happiness index.
-- Correlation heatmaps to identify strong relationships among variables.
+- **Scatter plots** to illustrate relationships between individual factors and the happiness index.
+- **Correlation heatmaps** to identify strong relationships among variables.
 
 ### Exploratory Data Analysis (EDA)
-Conduct EDA to uncover patterns and insights within the dataset through various visualizations.
+We will conduct EDA to uncover patterns and insights within the dataset through various visualizations.
 
 ## Test Plan
-- **Data Splitting**: The dataset will be split into training and testing sets to evaluate model predictive capabilities.
+
+### Data Splitting
+The dataset will be split into **training** and **testing** sets to evaluate model predictive capabilities.
 
 ## Conclusion
-This project aims to leverage the insights from the **World Happiness Report** dataset to create a predictive model of a country's happiness index. By identifying key factors that influence happiness and generating actionable recommendations for policymakers, we hope to contribute to the ongoing discourse around improving well-being. The project will combine data analysis, modeling techniques, and effective visualization to provide an understanding of what drives happiness across different nations.
-
+This project aims to leverage the insights from the **World Happiness Report** dataset to create a predictive model of a country's happiness index. By identifying key factors that influence happiness and generating actionable recommendations for policymakers, we hope to contribute to the ongoing discourse around improving well-being. The project will combine data analysis, modeling techniques, and effective visualizations to provide an understanding of what drives happiness across different nations.
