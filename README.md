@@ -1,4 +1,4 @@
-# Project Overview: Predicting Happiness Scores with World Happiness Report (November 5th, 2024)
+# Midterm Report: Predicting Happiness Scores with World Happiness Report (November 5th, 2024)
 
 **Presentation Link**: [Watch the Video](https://youtu.be/5C-bmi80cLQ)
 
