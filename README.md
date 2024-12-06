@@ -150,3 +150,8 @@ The dataset will be split into **training** and **testing** sets to evaluate mod
 
 ## Conclusion
 This project aims to leverage the insights from the **World Happiness Report** dataset to create a predictive model of a country's happiness index. By identifying key factors that influence happiness and generating actionable recommendations for policymakers, we hope to contribute to the ongoing discourse around improving well-being. The project will combine data analysis, modeling techniques, and effective visualizations to provide an understanding of what drives happiness across different nations.
+
+## Visualization (2021-2023)
+## Interactive Visualization
+View the interactive World Happiness Dashboard here:  
+[World Happiness Dashboard]([https://your-app-name.onrender.com)](https://cs506-giddygavin.onrender.com)
