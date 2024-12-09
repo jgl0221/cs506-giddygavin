@@ -1,90 +1,166 @@
+import pandas as pd
 import dash
 from dash import dcc, html
 from dash.dependencies import Input, Output
-import pandas as pd
 import plotly.express as px
 
-# Load datasets
-data_2021 = pd.read_csv("world-happiness-report-2021.csv")
-data_2022 = pd.read_csv("World Happiness Report 2022.csv")
-data_2023 = pd.read_csv("2023.csv")
+# Load and process the dataset
+file_2018 = pd.read_csv('2018.csv')
+file_2019 = pd.read_csv('2019.csv')
+file_2020 = pd.read_csv('2020.csv')
+file_2021 = pd.read_csv('2021.csv')
+file_2022 = pd.read_csv('2022.csv')
 
-# Standardize column names for all datasets
-data_2021.columns = data_2021.columns.str.strip().str.replace(" ", "_").str.lower()
-data_2022.columns = data_2022.columns.str.strip().str.replace(" ", "_").str.lower()
-data_2023.columns = data_2023.columns.str.strip().str.replace(" ", "_").str.lower()
+# Define common columns and rename for consistency
+common_columns = [
+    'country_name', 'year', 'life_ladder', 'log_gdp_per_capita',
+    'social_support', 'healthy_life_expectancy_at_birth',
+    'freedom_to_make_life_choices', 'generosity', 'corruption'
+]
 
-# Rename columns in 2022 dataset for consistency
-data_2022.rename(columns={
-    "country": "country_name", 
-    "happiness_score": "ladder_score"  # Align with 2021 and 2023
+file_2018.rename(columns={
+    'Country or region': 'country_name',
+    'Score': 'life_ladder',
+    'GDP per capita': 'log_gdp_per_capita',
+    'Social support': 'social_support',
+    'Healthy life expectancy': 'healthy_life_expectancy_at_birth',
+    'Freedom to make life choices': 'freedom_to_make_life_choices',
+    'Generosity': 'generosity',
+    'Perceptions of corruption': 'corruption'
 }, inplace=True)
 
-# Debugging: Print column names to verify consistency
-print("2021 Columns:", data_2021.columns)
-print("2022 Columns:", data_2022.columns)
-print("2023 Columns:", data_2023.columns)
+file_2019.rename(columns={
+    'Country or region': 'country_name',
+    'Score': 'life_ladder',
+    'GDP per capita': 'log_gdp_per_capita',
+    'Social support': 'social_support',
+    'Healthy life expectancy': 'healthy_life_expectancy_at_birth',
+    'Freedom to make life choices': 'freedom_to_make_life_choices',
+    'Generosity': 'generosity',
+    'Perceptions of corruption': 'corruption'
+}, inplace=True)
 
-# Add a 'year' column to each dataset
-data_2021['year'] = 2021
-data_2022['year'] = 2022
-data_2023['year'] = 2023
+file_2020.rename(columns={
+    'Country name': 'country_name',
+    'Ladder score': 'life_ladder',
+    'Logged GDP per capita': 'log_gdp_per_capita',
+    'Social support': 'social_support',
+    'Healthy life expectancy': 'healthy_life_expectancy_at_birth',
+    'Freedom to make life choices': 'freedom_to_make_life_choices',
+    'Generosity': 'generosity',
+    'Perceptions of corruption': 'corruption'
+}, inplace=True)
 
-# Combine datasets into a single DataFrame
-data = pd.concat([data_2021, data_2022, data_2023], ignore_index=True)
+file_2021.rename(columns={
+    'Country name': 'country_name',
+    'Ladder score': 'life_ladder',
+    'Logged GDP per capita': 'log_gdp_per_capita',
+    'Social support': 'social_support',
+    'Healthy life expectancy': 'healthy_life_expectancy_at_birth',
+    'Freedom to make life choices': 'freedom_to_make_life_choices',
+    'Generosity': 'generosity',
+    'Perceptions of corruption': 'corruption'
+}, inplace=True)
 
-# Debugging: Print combined DataFrame columns
-print("Combined DataFrame Columns:", data.columns)
+file_2022.rename(columns={
+    'Country': 'country_name',
+    'Happiness score': 'life_ladder',
+    'Explained by: GDP per capita': 'log_gdp_per_capita',
+    'Explained by: Social support': 'social_support',
+    'Explained by: Healthy life expectancy': 'healthy_life_expectancy_at_birth',
+    'Explained by: Freedom to make life choices': 'freedom_to_make_life_choices',
+    'Explained by: Generosity': 'generosity',
+    'Explained by: Perceptions of corruption': 'corruption'
+}, inplace=True)
+
+# Add 'year' column to each dataset
+file_2018['year'] = 2018
+file_2019['year'] = 2019
+file_2020['year'] = 2020
+file_2021['year'] = 2021
+file_2022['year'] = 2022
+
+# Retain only the common columns for each dataset
+file_2018 = file_2018[common_columns]
+file_2019 = file_2019[common_columns]
+file_2020 = file_2020[common_columns]
+file_2021 = file_2021[common_columns]
+file_2022 = file_2022[common_columns]
+
+# Combine datasets
+combined_data = pd.concat([file_2018, file_2019, file_2020, file_2021, file_2022], ignore_index=True)
+combined_data.dropna(inplace=True)
 
 # Initialize Dash app
 app = dash.Dash(__name__)
 
+# App layout
 app.layout = html.Div([
-    html.H1("World Happiness Statistics (2021–2023)", style={'textAlign': 'center'}),
-    dcc.Input(
-        id="year-input",
-        type="number",
-        placeholder="Enter Year (2021–2023)",
-        min=2021,
-        max=2023,
-        step=1,
-        value=2021,
-        style={'marginBottom': '20px', 'width': '50%', 'margin': '0 auto'}
+    html.H1("World Happiness Report (2018-2022)", style={'textAlign': 'center'}),
+    html.Label("Select Year:"),
+    dcc.Dropdown(
+        id='year-dropdown',
+        options=[{'label': year, 'value': year} for year in combined_data['year'].unique()],
+        value=2018
     ),
-    html.Div(id="output-message", style={'textAlign': 'center'}),
-    dcc.Graph(id="happiness-graph")
+    dcc.Graph(id='ladder-score-graph'),
+    dcc.Graph(id='feature-statistics-graph')
 ])
 
 @app.callback(
-    [Output("output-message", "children"),
-     Output("happiness-graph", "figure")],
-    [Input("year-input", "value")]
+    [Output('ladder-score-graph', 'figure'),
+     Output('feature-statistics-graph', 'figure')],
+    [Input('year-dropdown', 'value')]
 )
-def update_graph(year):
-    if year not in [2021, 2022, 2023]:
-        return "Please enter a valid year (2021–2023).", dash.no_update
+def update_graphs(selected_year):
+    filtered_data = combined_data[combined_data['year'] == selected_year]
 
-    # Filter data for the selected year
-    filtered_data = data[data["year"] == year]
-    print(f"Filtered Data for {year}:")
-    print(filtered_data.head())  # Debugging statement
-
-    if filtered_data.empty:
-        return f"No data available for {year}.", dash.no_update
-
-    # Create a bar chart
-    fig = px.bar(
+    # Ladder Score Bar Chart
+    ladder_fig = px.bar(
         filtered_data,
-        x="country_name",
-        y="ladder_score",  # Standardized column name
-        title=f'Happiness Scores for {year}',
-        labels={"ladder_score": "Happiness Score", "country_name": "Country"},
-        text="ladder_score"
+        x='country_name',
+        y='life_ladder',
+        title=f"Ladder Score by Country for {selected_year}",
+        labels={'life_ladder': 'Ladder Score', 'country_name': 'Country'}
     )
-    fig.update_traces(texttemplate='%{text:.2f}', textposition='outside')
-    fig.update_layout(xaxis={'categoryorder': 'total descending'})
 
-    return f"Displaying data for {year}.", fig
+    # Feature Statistics
+    features = [
+        'log_gdp_per_capita', 'social_support', 'healthy_life_expectancy_at_birth',
+        'freedom_to_make_life_choices', 'generosity', 'corruption'
+    ]
 
-if __name__ == "__main__":
-    app.run_server(debug=True)
+    stats = {
+        'Feature': features,
+        'Average': [filtered_data[feature].mean() for feature in features],
+        'Max': [filtered_data[feature].max() for feature in features],
+        'Max Country': [
+            filtered_data.loc[filtered_data[feature].idxmax(), 'country_name']
+            for feature in features
+        ],
+        'Min': [filtered_data[feature].min() for feature in features],
+        'Min Country': [
+            filtered_data.loc[filtered_data[feature].idxmin(), 'country_name']
+            for feature in features
+        ]
+    }
+
+    stats_df = pd.DataFrame(stats)
+
+    stats_fig = px.bar(
+        stats_df,
+        x='Feature',
+        y=['Average', 'Max', 'Min'],
+        barmode='group',
+        title=f"Feature Statistics for {selected_year}",
+        labels={'value': 'Score', 'Feature': 'Feature'},
+        hover_data={
+            'Max Country': True,
+            'Min Country': True
+        }
+    ) 
+
+    return ladder_fig, stats_fig
+
+if __name__ == '__main__':
+    app.run_server(debug=True, port=8051)  # Change port to 8051
