@@ -1,152 +1,209 @@
-# Midterm Report: Predicting Happiness Scores with World Happiness Report (November 5th, 2024)
-
-**Presentation Link**: [Watch the Video](https://youtu.be/5C-bmi80cLQ)
-
-This project aims to analyze World Happiness Report data from 2020, 2021, and 2022 to model and predict happiness scores (referred to as "life ladder" values). Using socio-economic indicators like GDP per capita, social support, life expectancy, freedom of life choices, generosity, and perceptions of corruption, we seek to understand the relationships between these factors and national happiness levels. Through a Random Forest Regressor model, we also identify the most influential predictors contributing to happiness.
-
-## Table of Contents
-1. [Data Processing and Standardization](#data-processing-and-standardization)
-2. [Preliminary Data Visualizations](#preliminary-data-visualizations)
-3. [Modeling Approach: Random Forest Regressor](#modeling-approach-random-forest-regressor)
-4. [Feature Importance Analysis](#feature-importance-analysis)
-5. [Next Steps](#next-steps)
+# Final Writeup: Predicting Happiness Scores with the World Happiness Report
+**Josh Lee, Jimin Park, Gavin Park**  
+*(Team Giddy Gavin)*
 
 ---
 
-### 1. Data Processing and Standardization
-The data processing phase included:
+## Core Objective:
+The objective of this project is to predict Happiness Scores (Life Ladder) using machine learning techniques. Our model utilizes several key explanatory variables that capture critical socioeconomic and well-being factors affecting life satisfaction. These factors include:
 
-- **Standardizing Column Names**: We imported datasets from each year and standardized column names for consistency.
-- **Aligning Features Across Years**: After adding a "year" column to capture time-specific details, we aligned the datasets by renaming columns and selecting common features.
-- **Handling Missing Values**: We checked for missing data and removed rows with missing entries to ensure a cleaner dataset.
+- Normalized GDP per capita
+- Social support
+- Normalized healthy life expectancy at birth
+- Freedom to make life choices
+- Generosity
+- Corruption
 
-These steps helped us create a consolidated dataset ready for analysis and modeling.
-
----
-
-### 2. Preliminary Data Visualizations
-To explore the data, we created several visualizations to understand feature distributions and relationships with happiness:
-
-- **Distribution Plots**: Histograms and density plots provided insights into the spread of key features such as GDP per capita, social support, and freedom, highlighting variability across countries and years.
-- **Scatter Plots**: We examined the relationships between happiness (life ladder) and other features, finding positive correlations with GDP per capita, life expectancy, and social support.
-- **Correlation Heatmap**: A correlation heatmap revealed stronger correlations between happiness and features like GDP per capita and social support, suggesting these as influential variables.
-
-These visualizations provided a foundation for understanding which factors might drive happiness.
+We train our model using data from the 2018–2022 World Happiness Reports and evaluate its performance using the 2023 report. This approach aims to measure the predictive accuracy and generalizability of the model on new data.
 
 ---
 
-### 3. Modeling Approach: Random Forest Regressor
-For our initial model, we chose the **Random Forest Regressor**, ideal for handling non-linear relationships and providing feature importance rankings.
+## Setting Up the Environment:
 
-- **Data Preparation**: We split the data into training and testing sets, applying Min-Max scaling to normalize feature values for model consistency.
-- **Model Training**: We trained the model using 80% of the data and evaluated it on the remaining 20%.
-- **Evaluation Metrics**:
-  - **Mean Absolute Error (MAE)**: Measures the average prediction error, indicating how close predictions are to actual values.
-  - **R-squared (R²)**: Reflects the proportion of variance in happiness scores explained by the model.
+### Steps to Set Up the Project:
 
-The model’s performance is promising, achieving decent accuracy based on initial evaluation metrics.
+1. **Clone the Repository**: Clone the project repository to your local machine:
+    ```bash
+    git clone https://github.com/jgl0221/cs506-giddygavin.git
+    cd cs506-giddygavin
+    ```
+
+2. **Create a Virtual Environment (Optional but Recommended)**: Isolate project dependencies in a virtual environment:
+    ```bash
+    python3 -m venv venv
+    ```
+
+    - On macOS/Linux:
+    ```bash
+    source venv/bin/activate
+    ```
+
+    - On Windows:
+    ```bash
+    venv\Scripts\activate
+    ```
+
+3. **Install Dependencies**: Install the necessary dependencies via the Makefile or requirements.txt:
+
+    - Using **Makefile**:
+    ```bash
+    make install
+    ```
+
+    - Or using **pip**:
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+4. **Prepare the Data**: Ensure that the necessary data files (e.g., `Combined_data_2018_2022.csv`) are placed in the project directory. If they are not provided, download them according to the instructions.
 
 ---
 
-### 4. Feature Importance Analysis
-Using Random Forest’s feature importance metric, we identified key predictors of happiness:
+## Running the Project:
+Once the environment is set up, execute the project by running:
+```bash
+python app.py
+```
 
-- **Top Predictors**: The strongest predictors were `Log GDP per capita`, `social support`, and `healthy life expectancy`.
-- **Less Influential Features**: Generosity and perceptions of corruption had weaker importance scores, suggesting they may influence happiness less than economic and social factors.
-
-This analysis provides valuable insights into the most impactful variables, helping guide future modeling steps.
-
----
-
-### 5. Next Steps
-To refine our model, we plan to:
-
-- **Tune Model Parameters**: Adjust Random Forest parameters (e.g., number of trees, tree depth) to balance complexity and accuracy.
-- **Mitigate Overfitting**: Use cross-validation and potentially limit tree depth if overfitting becomes a concern.
-- **Explore Feature Interactions**: Investigate interactions between predictors, as combined effects of features like social support and freedom of choice could reveal deeper insights.
-- **Expand Dataset**: Consider integrating additional socio-economic indicators if available.
+This will run the main script, which loads the data, performs model predictions, and generates visualizations.
 
 ---
 
-This project is an ongoing effort to understand what drives happiness across nations, using data-driven insights to identify the strongest contributing factors. By continuing to refine our model, we aim to provide actionable recommendations for policymakers and further contribute to the study of well-being.
+## Data Acquisition, Processing, and Cleaning
 
+### Data Description and Relevance
 
-# Project Proposal: Predicting a Country's Happiness Index (October 1st, 2024)
+The data used in this project comes from the World Happiness Report (2018–2022), a widely recognized source of global happiness metrics. The dataset includes multiple factors related to happiness and quality of life, such as GDP per capita, social support, life expectancy, freedom, and corruption levels. These factors are crucial in understanding the socio-economic determinants of happiness across different countries.
 
-## Description of the Project
-The goal of this project is to predict a country's **happiness index** based on socio-economic and demographic factors derived from the World Happiness Report dataset available on Kaggle. The happiness index reflects the subjective well-being of individuals in various countries, influenced by factors such as GDP per capita, social support, life expectancy, freedom to make life choices, and perceptions of corruption. This analysis will provide insights into what drives happiness across different nations and help inform policy decisions aimed at improving the quality of life.
+### Data Acquisition
 
-## Goals
-- **Develop a Predictive Model:** Create a model that can accurately predict a country’s happiness index using key socio-economic indicators. This will help identify which factors are the strongest predictors of happiness. We will aim to predict the happiness index for the year 2023 using a model trained on previous years.
-  
-- **Identify Key Factors Influencing Happiness:** Analyze the dataset to determine the significant variables that impact happiness levels. This could involve exploring correlations and conducting feature importance analysis.
+The data was acquired from the official World Happiness Report website. We used the 2018–2022 reports for training our model and the 2023 data for testing.
 
-## Data Collection
+### Data Preprocessing and Cleaning
 
-### Primary Data Source
-The main dataset will be sourced from Kaggle's **World Happiness Report**, which includes annual happiness scores for various countries along with associated factors like GDP per capita, social support, life expectancy, freedom to make life choices, and perceptions of corruption.
+- **Feature Selection:** We selected variables based on their relevance to happiness prediction. Features like GDP per capita, social support, and life expectancy were retained, while rank-based or irrelevant features were discarded.
+- **Handling Missing Data:** We dropped countries not represented across all years (2018–2023) to ensure consistency in the dataset. This avoids introducing bias from missing data and ensures robust training and testing.
+- **Normalization:** We normalized certain features (e.g., GDP per capita, life expectancy) to scale them between 0 and 1, preventing any feature from disproportionately affecting the model due to its scale.
+- **Data Integrity:** After preprocessing, we ensured that the dataset contained no duplicates and that the target variable (`life_ladder`) had valid values for all entries.
 
-### Data Features
-The primary socio-economic indicators used for predicting the happiness index include:
+---
 
-- **Economic indicators:** GDP per capita (gross domestic product per person).
-- **Social factors:** Social support (strength of social connections and support networks).
-- **Life expectancy:** The average number of years a person is expected to live.
-- **Freedom to make life choices:** The extent to which people feel free to make their own decisions.
-- **Perceptions of corruption:** How corrupt people perceive their government and businesses to be.
+## Exploratory Data Analysis (EDA) and Visualizations
 
-Additional features like **generosity** or **demographic indicators** (e.g., population growth rate) may be considered, depending on their relevance to happiness.
+### 1. Distribution of Key Features
 
-### Important Note
-For each feature, we will align with how these indicators are typically measured in happiness studies:
-- **GDP per capita:** Generally calculated by dividing a country’s total economic output by its population.
-- **Social support:** Measured based on survey responses regarding the availability of support from friends or family in times of need.
-- **Life expectancy:** Based on World Health Organization or similar health statistics.
-- **Freedom to make life choices:** Gauged by survey questions that ask respondents whether they feel they have the freedom to make important life decisions.
-- **Perceptions of corruption:** Derived from surveys asking about the level of corruption in government and businesses as perceived by citizens.
+We examined the distribution of key features using histograms and density plots:
 
-We will avoid using any factor that has already been included in the calculation of the happiness index itself to prevent redundancy.
+- **Life Ladder (Happiness Score):** Symmetric distribution centered around the median happiness levels.
+- **Normalized GDP per Capita & Healthy Life Expectancy:** Normally distributed after normalization, reflecting variation across countries.
+- **Social Support, Freedom to Make Life Choices, Generosity:** Right-skewed distributions, suggesting lower values in many countries.
+- **Corruption:** Strongly skewed with most countries reporting low corruption.
 
-### Data Collection Method
-The Kaggle dataset will be downloaded directly. To ensure a comprehensive analysis, we may also seek additional relevant data from:
-- **Web Scraping:** If needed, we will scrape data from reliable sources such as the World Bank and the United Nations.
-- **APIs:** Explore APIs from organizations like the World Bank to gather updated information about various socio-economic indicators.
+### 2. Relationships Between Features and Life Ladder
 
-### Data Cleaning
-The collected data will be preprocessed to:
-- Handle missing values
-- Remove duplicates
-- Normalize data formats
+We used scatter plots to visualize the relationships between each explanatory variable and the Life Ladder:
 
-This step is crucial to ensure the reliability of the predictive model.
+- **Normalized GDP per Capita:** Strong positive correlation with happiness.
+- **Social Support:** Positive correlation, reinforcing the importance of social connections.
+- **Freedom to Make Life Choices:** Positive correlation, emphasizing that personal freedoms contribute to happiness.
+- **Generosity & Corruption:** Weak positive relationship for generosity, and a negative relationship for corruption, showing that lower corruption levels are associated with higher happiness.
+- **Normalized Healthy Life Expectancy:** Positive correlation, indicating that better health leads to higher happiness.
 
-## Modeling Approach
+### 3. Correlation Heatmap
 
-### Data Preparation
-- Clean and preprocess the data, including handling missing values, normalizing data, and encoding categorical variables.
+A heatmap was generated to quantify the correlation between features. Key observations:
 
-### Modeling Techniques
-- We will begin with **linear regression** for baseline predictions.
-- Explore advanced models such as **decision trees** or **random forests** to capture more complex relationships, as well as other methods learned in class.
-- Consider using **neural networks** if data complexity warrants such an approach.
+- Strong positive correlations between `life_ladder` and `social_support`, `normalized_gdp_per_capita`, and `freedom_to_make_life_choices`.
+- Low correlations between generosity and corruption, suggesting minimal multicollinearity.
 
-### Evaluation Metrics
-- **Mean Absolute Error (MAE)**
-- **R-squared**
+---
 
-## Data Visualization
+## Methodologies
 
-### Visualization Techniques
-- **Scatter plots** to illustrate relationships between individual factors and the happiness index.
-- **Correlation heatmaps** to identify strong relationships among variables.
+### 1. Model Selection and Training
 
-### Exploratory Data Analysis (EDA)
-We will conduct EDA to uncover patterns and insights within the dataset through various visualizations.
+We utilized the Random Forest Regressor as our primary model for predicting happiness scores. The model was trained using data from 2018–2022 and evaluated on the 2023 data. We assessed the model’s performance using the following metrics:
 
-## Test Plan
+- **Mean Absolute Error (MAE):** 0.4758
+- **Mean Squared Error (MSE):** 0.4161
+- **Root Mean Squared Error (RMSE):** 0.6451
+- **R-squared (R²):** 0.6724
+- **Cross-validated MSE scores:** 0.2262 ± 0.0640
 
-### Data Splitting
-The dataset will be split into **training** and **testing** sets to evaluate model predictive capabilities.
+### 2. Feature Importance Analysis
 
-## Conclusion
-This project aims to leverage the insights from the **World Happiness Report** dataset to create a predictive model of a country's happiness index. By identifying key factors that influence happiness and generating actionable recommendations for policymakers, we hope to contribute to the ongoing discourse around improving well-being. The project will combine data analysis, modeling techniques, and effective visualizations to provide an understanding of what drives happiness across different nations.
+We analyzed the importance of each feature using the Random Forest model:
+
+- **Normalized Healthy Life Expectancy:** 0.6324
+- **Normalized GDP per Capita:** 0.1182
+- **Social Support:** 0.0923
+- **Freedom to Make Life Choices:** 0.0638
+- **Corruption:** 0.0565
+- **Generosity:** 0.0367
+
+---
+
+## Model Comparison
+
+We compared several machine learning models to predict happiness scores:
+
+- **Gradient Boosting Regressor:** R² = 0.7299
+- **XGBoost Regressor:** R² = 0.7226
+- **LightGBM Regressor:** R² = 0.7385
+- **Support Vector Regression (SVR):** R² = 0.7990
+
+### Model Comparison Insights
+
+- SVR was the most accurate model, with the highest R² and lowest RMSE.
+- LightGBM performed well, followed by Gradient Boosting and XGBoost.
+- SVR's excellent performance shows its ability to capture complex patterns in the data.
+
+---
+
+## Optimization and Evaluation
+
+### 1. Hyperparameter Tuning for SVR
+
+After identifying SVR as the best model, we performed GridSearchCV to optimize the hyperparameters for better accuracy.
+
+### 2. Dimensionality Reduction with PCA
+
+We applied Principal Component Analysis (PCA) to reduce feature dimensionality while retaining 95% of the variance in the data. The combination of PCA and SVR resulted in significant performance improvements.
+
+### 3. Cross-Validation
+
+We conducted 10-fold cross-validation to assess the model's generalizability. The mean R² score was 0.3921, with a standard deviation of 0.1669, and the validation set achieved an R² score of 0.8033.
+
+---
+
+## Results and Conclusion
+
+### Key Findings:
+
+- The SVR model outperformed other models, achieving the highest R² score (0.7990) and the lowest RMSE.
+- PCA + SVR reduced dimensionality effectively, leading to better efficiency and performance with an R² score of 0.8033.
+- Feature importance analysis highlighted normalized healthy life expectancy as the most influential factor in predicting happiness.
+
+### Limitations:
+
+- Dropping missing values may have resulted in a loss of important data, potentially introducing bias.
+- PCA reduced feature interpretability, making it harder to understand the direct contribution of each variable.
+- Cross-validation variability suggested the model may be sensitive to data subsets, indicating potential overfitting.
+
+### Future Work:
+
+- Incorporate external factors (e.g., political and cultural variables) for a more holistic understanding of happiness.
+- Use advanced imputation techniques to handle missing data more effectively.
+- Experiment with more advanced feature engineering and model ensembling methods to improve predictive performance.
+
+---
+
+## Interactive Visualizations
+
+We provided several interactive visualizations to support the analysis:
+
+- **Ladder Score Bar Chart:** Displays happiness scores for each country in a specific year.
+- **Happiness Map:** A choropleth map showing global happiness scores, with color-coding for easy comparison.
+- **Feature Statistics:** Bar charts for average and maximum values of key features such as GDP and social support.
+- **Happiness Change Visualization:** Compares happiness scores between two years, highlighting significant changes.
+- **Predicting Happiness Score for 2023:** Users can input values via sliders, predict happiness scores for 2023, and compare predictions with actual data.
