@@ -1,8 +1,8 @@
 install:
-    pip install -r requirements.txt
+	@pip install -r requirements.txt
 
 run:
-    jupyter nbconvert --execute FINAL_CS506Project.ipynb --to notebook --output FINAL_CS506Project_Output.ipynb
+	@jupyter notebook FINAL_CS506Project.ipynb
 
 test:
-    pytest tests/
+	@python -m unittest discover tests/
